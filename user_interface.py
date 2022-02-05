@@ -3,13 +3,18 @@ import tkinter.messagebox
 import pyaudio
 import wave
 import numpy as np
+import pandas as pd
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.metrics import classification_report
+from IPython.display import Audio
 
 from playsound import playsound
+from keras.models import model_from_json
 
 import extraction_functions_rec as efrs
-#import main
+#from main import ExternalAudio
+
+
 
 
 class RecAUD:
@@ -72,24 +77,47 @@ class RecAUD:
 # Create an object of the ProgramGUI class to begin the program.
 disp = RecAUD()
 
-#path="C:\\Users\\Dell\\Desktop\\major project\\SERsystem\\test_recording.wav\\"
-#playsound('test_recording.wav')
+
+# load json and create model
+json_file = open('model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+# load weights into new model
+loaded_model.load_weights("model.h5")
+print("Loaded model from disk")
 
 
-
-feature = efrs.get_features('test_recording.wav')
+#getting the features for recorded audio
+feature = efrs.get_features('OAF_back_happy.wav')
 X= np.array([])
 for ftr in feature:
    X=np.hstack((X,ftr))
 
 print(X)
+#shaping for model
 X = X.reshape(1,-1)
-
-scaler = StandardScaler()
-X = scaler.fit_transform(X)
-
 print(X)
 
 
+#this block is for inverse encoding of the final output labels
+data = pd.read_csv('features.csv')
+Y = data['category'].values
+encoder = OneHotEncoder()
+Y = encoder.fit_transform(np.array(Y).reshape(-1,1)).toarray()
 
 
+audio_predict = loaded_model.predict(X)
+print(audio_predict)
+final_label = encoder.inverse_transform(audio_predict)
+
+
+# final_class = ExternalAudio(audio_predict)
+# final_label = final_class.predictRecorded()
+# print(final_label)
+
+
+audio_df = pd.DataFrame(columns=['AudioLabel'])
+audio_df['AudioLabel'] = final_label.flatten()
+audio_df.AudioLabel.replace({0:'neutral', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 1:'surprise'}, inplace=True)
+print(audio_df)
