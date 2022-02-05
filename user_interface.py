@@ -82,14 +82,13 @@ X= np.array([])
 for ftr in feature:
    X=np.hstack((X,ftr))
 
+print(X)
+X = X.reshape(1,-1)
+
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
 
 print(X)
-
-
-# scaler = StandardScaler()
-# X = scaler.fit_transform(X)
-
-# print(X)
 
 
 
