@@ -5,13 +5,16 @@ import wave
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.metrics import classification_report
 from IPython.display import Audio
+
+from sklearn.metrics import classification_report
+from sklearn.model_selection import train_test_split
+
 
 from playsound import playsound
 from keras.models import model_from_json
 
-import extraction_functions_rec as efrs
+import extraction_functions as efs
 #from main import ExternalAudio
 
 
@@ -89,13 +92,17 @@ print("Loaded model from disk")
 
 
 #getting the features for recorded audio
-feature = efrs.get_features('OAF_back_happy.wav')
+feature = efs.get_features('test_recording.wav')
 X= np.array([])
 for ftr in feature:
    X=np.hstack((X,ftr))
-
 print(X)
-#shaping for model
+
+
+# X = X.reshape(-1,1)
+# scaler = StandardScaler()
+# X = scaler.fit_transform(X)
+# #shaping for model
 X = X.reshape(1,-1)
 print(X)
 
