@@ -1,5 +1,3 @@
-
-from re import A
 from keras.layers import LSTM
 import tensorflow as tf
 import keras
@@ -7,7 +5,6 @@ import keras
 
 
 def build_model(input_shape):
-    A
     # build network topology
     model = keras.Sequential()
     # 2 LSTM layers

@@ -9,6 +9,7 @@ import warnings
 
 from sklearn.feature_selection import RFE
 from sklearn.linear_model import LinearRegression
+
 import keras
 import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -20,6 +21,8 @@ import extraction_functions as efs
 import RNNLstm as lstm
 
 warnings.filterwarnings('ignore')
+
+
 
 
 
@@ -82,16 +85,23 @@ Y = Features['category'].values
 
 
 #feature selection,stop the search when only the last 40 feature are left
-lr = LinearRegression(normalize=True)
-lr.fit(X,Y)
-rfe = RFE(estimator = lr, n_features_to_select=60, step=1)
-X = rfe.fit_transform(X,Y)
+# lr = LinearRegression(normalize=True)
+# lr.fit(X,Y)
+# rfe = RFE(estimator = lr, n_features_to_select=60, step=1)
+# X = rfe.fit_transform(X,Y)
+
+
+# As this is a multiclass classification problem onehotencoding our Y.
+# encoder = OneHotEncoder()
+# Y = encoder.fit_transform(np.array(Y).reshape(-1,1)).toarray()
+# print(Y)
 
 
 # splitting data
 x_train, x_test, y_train, y_test = train_test_split(X, Y, random_state=0, shuffle=True)
 x_train.shape, y_train.shape, x_test.shape, y_test.shape
 
+# print(x_train)
 # scaling our data with sklearn's Standard scaler
 # scaler = StandardScaler()
 # x_train = scaler.fit_transform(x_train)
@@ -99,6 +109,7 @@ x_train.shape, y_train.shape, x_test.shape, y_test.shape
 # x_train.shape, y_train.shape, x_test.shape, y_test.shape
 
 
+# print(x_train)
 #building a model
 input_shape = (x_train.shape[1],1)
 model = lstm.build_model(input_shape)
@@ -138,6 +149,7 @@ Y = encoder.fit_transform(np.array(Y).reshape(-1,1)).toarray()
 # predicting on test data.
 pred_test = model.predict(x_test)
 y_pred = encoder.inverse_transform(pred_test)
+
 
 
 
