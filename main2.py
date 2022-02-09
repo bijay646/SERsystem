@@ -76,7 +76,7 @@ emotion_df = pd.DataFrame(labels, columns=['Emotions'])
 # dataframe for path of files.
 path_df = pd.DataFrame(paths, columns=['Path'])
 Tess_df = pd.concat([emotion_df, path_df], axis=1)
-Tess_df.Emotions.replace({'neutral':0, 'surprise':1, 'happy':2, 'sad':3, 'angry':4, 'fear':5,'disgust':6}, inplace=True)
+Tess_df.Emotions.replace({'neutral':0, 'happy':2, 'sad':3, 'angry':4, 'fear':5,'disgust':6, 'surprise':7}, inplace=True)
 Tess_df.head()
 
 
@@ -234,8 +234,9 @@ y_test = encoder.inverse_transform(y_test)
 Predicted_df = pd.DataFrame(columns=['PredictedLabels', 'ActualLabels'])
 Predicted_df['PredictedLabels'] = y_pred.flatten()
 Predicted_df['ActualLabels'] = y_test.flatten()
-Predicted_df.PredictedLabels.replace({0:'neutral', 1:'surprise', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust'}, inplace=True)
-Predicted_df.ActualLabels.replace({0:'neutral', 1:'surprise', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust'}, inplace=True)
+Predicted_df.PredictedLabels.replace({0:'neutral', 1:'calm', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 7:'surprise'}, inplace=True)
+Predicted_df.ActualLabels.replace({0:'neutral', 1:'calm', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 7:'surprise'}, inplace=True)
+
 
 print(Predicted_df.head(10))
 print(classification_report(y_test, y_pred))
