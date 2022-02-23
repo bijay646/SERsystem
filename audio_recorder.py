@@ -15,7 +15,7 @@ def audioRecorder():
     channels = 2
     # 44100 samples per second
     sample_rate = 44100
-    record_seconds = 4
+    record_seconds = 3
     # initialize PyAudio object
     p = pyaudio.PyAudio()
     # open stream object as input & output

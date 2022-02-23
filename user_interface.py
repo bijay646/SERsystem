@@ -126,5 +126,10 @@ final_label = encoder.inverse_transform(audio_predict)
 
 audio_df = pd.DataFrame(columns=['AudioLabel'])
 audio_df['AudioLabel'] = final_label.flatten()
-audio_df.AudioLabel.replace({0:'neutral', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 1:'surprise'}, inplace=True)
+
+#for tess 
+# audio_df.AudioLabel.replace({0:'neutral', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 1:'surprise'}, inplace=True)
+
+#for tess removed
+audio_df.AudioLabel.replace({0:'neutral', 1:'happy', 2:'sad', 3:'angry', 4:'fear', 5:'surprise'}, inplace=True)
 print(audio_df)

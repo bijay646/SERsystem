@@ -1,10 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from IPython.display import Audio
 
 from sklearn.metrics import classification_report
-from sklearn.model_selection import train_test_split
 
 from playsound import playsound
 from keras.models import model_from_json
@@ -34,7 +32,7 @@ def labelIdentifier():
     # X = X.reshape(-1,1)
     # scaler = StandardScaler()
     # X = scaler.fit_transform(X)
-    # #shaping for model
+    #shaping for model
     X = X.reshape(1,-1)
 
 
@@ -52,11 +50,17 @@ def labelIdentifier():
 
     audio_df = pd.DataFrame(columns=['AudioLabel'])
     audio_df['AudioLabel'] = final_label.flatten()
-    audio_df.AudioLabel.replace({0:'neutral',1:'calm', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 7:'surprise'}, inplace=True)
+    #this is for main1
+    #audio_df.AudioLabel.replace({0:'neutral',1:'calm', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust', 7:'surprise'}, inplace=True)
+   
+    #this is for main
+    #audio_df.AudioLabel.replace({0:'neutral', 1:'surprise', 2:'happy', 3:'sad', 4:'angry', 5:'fear', 6:'disgust'}, inplace=True)
+   
+    #this is for main with tess disgust removed
+    audio_df.AudioLabel.replace({0:'neutral', 1:'happy', 2:'sad', 3:'angry', 4:'fear', 5:'surprise'}, inplace=True)
     label_to_send = audio_df.AudioLabel[0]
     print(audio_df.head())
     
-
     return label_to_send
 
 
